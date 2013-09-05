@@ -10,4 +10,4 @@ I am publishing my progress in this area on http://pseudomultithreading.webzdarm
 
 On my opinion everything should be self-describing...
 
-Cenek Svoboda, svobo.c@gmail.comm
+Cenek Svoboda, svobo.c@gmail.com

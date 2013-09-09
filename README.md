@@ -8,6 +8,4 @@ with access to DOM in javascript.
 
 I am publishing about my progress in this area on http://pseudomultithreading.webzdarma.cz now.
 
-On my opinion everything should be self-describing...
-
 Cenek Svoboda, svobo.c@gmail.com

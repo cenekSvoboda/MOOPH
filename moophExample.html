@@ -16,23 +16,23 @@ MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example
 </div>
 <br/>
 <p>
-Two pseudothreads of execution run in pseudoparallel. One of them is a very simple function that adds one to a variable and the other one is a function, that renders that variable and resets its value to zero. Renderer is paused between second and fourth second and adder is paused between fifth and seventh second. Renderer's function is executed every X ms (where X may be set) as measured by MOOPH module and as set by radio buttons. I can not imagine more simple example covering every feature of MOOPH. It is more and more time consuming to render the text as the number of symbols grows...
+JavaScript single file applications are not really multithreaded now. Two pseudothreads of execution run in this example in pseudoparallel (it looks like they run in parallel but they don't, they run one after each other). One of them is a very simple function that adds one to a variable and the other one is a function, that displays that variable and resets its value to zero. The pseudothread that displays the variable is paused between second and fourth second and the pseudothread that adds to the variable is paused between fifth and seventh second. It is possible to set how displaying pseudothread works using the form (some difference is seen when you focus on different tab after setting "is measured from last time"). I can not imagine more simple example covering every significant feature of MOOPH. It is more and more time consuming to display the text as the number of symbols grows... (I don't know why the numbers still get lower and lower if I set displaying pseudothread to "is measured after call", please help and explain (svobo.c@gmail.com)...)
 <br/>
 <br/>
 <div>
-	Renderer's measured delay: <input id="reMeDe" type="text" value="200"/>&nbsp;<input type="button" value="Set measured delay of renderer." onclick="d.setRenderersMeasuredDelay();"/>
+	Measured delay of the pseudothread that displays the variable: <input id="reMeDe" type="text" value="200"/>&nbsp;<input type="button" value="Set measured delay of the pseudothread that displays the variable." onclick="d.setDisplayingPseudothreadMeasuredDelay();"/>
 </div>
 <br/>
 <div>
-	<input type="radio" name="lastTime" onclick="d.setRendererToMeasuredFromLastTime(true);"/>Set renderer pseudothread to "is measured from last time"
+	<input type="radio" name="lastTime" onclick="d.setDisplayingPseudothredToMeasuredFromLastTime(true);"/>Set displaying pseudothread to "is measured from last time".
 	<br/>
-	<input type="radio" name="lastTime" onclick="d.setRendererToMeasuredFromLastTime(false);" checked="checked"/>Set renderer pseudothread to "is measured from now"
+	<input type="radio" name="lastTime" onclick="d.setDisplayingPseudothredToMeasuredFromLastTime(false);" checked="checked"/>Set displaying pseudothread to "is measured from now".
 </div>
 <br/>
 <div>
-	<input type="radio" name="beforeCall" onclick="d.setRendererToMeasuredBeforeCall(true);" checked="checked"/>Set renderer pseudothread to "is measured before call"
+	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(true);" checked="checked"/>Set displaying pseudothread to "is measured before call".
 	<br/>
-	<input type="radio" name="beforeCall" onclick="d.setRendererToMeasuredBeforeCall(false);"/>Set renderer pseudothread to "is measured after call"
+	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(false);"/>Set displaying pseudothread to "is measured after call".
 </div>
 <br/>
 <br/>
@@ -58,35 +58,35 @@ d.renderAndRestartThat=function()
 	document.getElementById("mooph").appendChild(spanisko);
 	d.someNumber=0;
 };
-d.setRendererToMeasuredFromLastTime=function(foo)
+d.setDisplayingPseudothredToMeasuredFromLastTime=function(foo)
 {
-	d.renderer.setMeasuredFromLastTime(foo);
+	d.pseudothreadThatDisplays.setMeasuredFromLastTime(foo);
 };
-d.setRendererToMeasuredBeforeCall=function(bar)
+d.setDisplayingPseudothredToMeasuredBeforeCall=function(bar)
 {
-	d.renderer.setMeasuredBeforeCall(bar);
+	d.pseudothreadThatDisplays.setMeasuredBeforeCall(bar);
 };
-d.setRenderersMeasuredDelay=function()
+d.setDisplayingPseudothreadMeasuredDelay=function()
 {
-	d.renderer.setMeasuredDelay(parseInt(document.getElementById("reMeDe").value));
+	d.pseudothreadThatDisplays.setMeasuredDelay(parseInt(document.getElementById("reMeDe").value));
 };
 
 d.adder=MOOPH.createFalseThread();
-d.renderer=MOOPH.createFalseThread();
+d.pseudothreadThatDisplays=MOOPH.createFalseThread();
 
 d.adder.setFunction(d.addToNumber);
 
-d.renderer.setFunction(d.renderAndRestartThat);
-d.renderer.setMeasuredDelay(200);
+d.pseudothreadThatDisplays.setFunction(d.renderAndRestartThat);
+d.pseudothreadThatDisplays.setMeasuredDelay(200);
 
 d.adder.start();
-d.renderer.start();
+d.pseudothreadThatDisplays.start();
 
 setTimeout(function(){
-	d.renderer.pause();
+	d.pseudothreadThatDisplays.pause();
 },2000);
 setTimeout(function(){
-	d.renderer.start();
+	d.pseudothreadThatDisplays.start();
 },4000);
 
 setTimeout(function(){

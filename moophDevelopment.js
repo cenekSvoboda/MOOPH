@@ -4,8 +4,10 @@
  */
 var MOOPH=(function MOOPH()
 {
-	if(!window.performance){
+	if(typeof window.performance==='undefined'){
 		window.performance={};
+	}
+	if(!window.performance.now){
 		window.performance.now=function()
 		{
 			return new Date().getTime();

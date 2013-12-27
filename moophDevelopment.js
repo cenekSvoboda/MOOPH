@@ -8,7 +8,7 @@ var MOOPH=(function MOOPH()
 		window.performance={};
 	}
 	if(!window.performance.now){
-		window.performance.now=function()
+		window.performance.now=function performanceNow()
 		{
 			return new Date().getTime();
 		};

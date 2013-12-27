@@ -1,9 +1,16 @@
-/*
+*
  * MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext
  * Copyright 2013 Cenek Svoboda, svobo.c@gmail.com
  */
 var MOOPH=(function MOOPH()
 {
+	if(!window.performance){
+		window.performance={};
+		window.performance.now=function()
+		{
+			return new Date().getTime();
+		};
+	}
 	var _falseThreads=[];
 	return {
 		createFalseThread:function createFalseThread()
@@ -21,7 +28,7 @@ var MOOPH=(function MOOPH()
 				if(_falseThreads[ftid].pause===true){
 					return;
 				}
-				var now=new Date().getTime();
+				var now=window.performance.now();
 				if(now>_falseThreads[ftid].lastTime+_falseThreads[ftid].measuredDelay){
 					var imbc=_falseThreads[ftid].isMeasuredBeforeCall;
 					if(!imbc){
@@ -31,7 +38,7 @@ var MOOPH=(function MOOPH()
 						_falseThreads[ftid].lastTime+=_falseThreads[ftid].measuredDelay;
 					}else{
 						if(!imbc){
-							_falseThreads[ftid].lastTime=new Date().getTime();
+							_falseThreads[ftid].lastTime=window.performance.now();
 						}else{
 							_falseThreads[ftid].lastTime=now;
 						}
@@ -74,7 +81,7 @@ var MOOPH=(function MOOPH()
 				start:function start()
 				{
 					_falseThreads[_ftid].pause=false;
-					_falseThreads[_ftid].lastTime=new Date().getTime();
+					_falseThreads[_ftid].lastTime=window.performance.now();
 					_falseThreads[_ftid].falseThread(_ftid);
 				},
 				pause:function pause()

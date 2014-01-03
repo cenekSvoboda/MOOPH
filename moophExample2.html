@@ -7,16 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1250"/>
 <script src="./moophProduction.js"></script>
 <title>
-MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 1
+MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 2
 </title>
 </head>
 <body>
-<div>
-<h1>MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 1</h1>
-</div>
+<h1>MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 2</h1>
 <br/>
-<p>
-JavaScript single file applications are not really multithreaded now. Two pseudothreads of execution run in this example in pseudoparallel (it looks like they run in parallel but they don't, they run one after each other). One of them is a very simple function that adds one to a variable and the other one is a function, that displays that variable and resets its value to zero. The pseudothread that displays the variable is paused between second and fourth second and the pseudothread that adds to the variable is paused between fifth and seventh second. It is possible to set how displaying pseudothread works using the form (some difference is seen when you focus on different tab after setting "is measured from last time"). I can not imagine more simple example covering every significant feature of MOOPH. It is more and more time consuming to display the text as the number of symbols grows... (I don't know why the numbers still get lower and lower if I set displaying pseudothread to "is measured after call", please help and explain (svobo.c@gmail.com)...)
+<div>
+In second example I show how to switch context of objects. See code and numbers.
 <br/>
 <br/>
 <div>
@@ -37,7 +35,7 @@ JavaScript single file applications are not really multithreaded now. Two pseudo
 <br/>
 <br/>
 &copy; 2013-2014 Cenek Svoboda, svobo.c@gmail.com
-</p>
+</div>
 <br/>
 <div id="mooph">
 </div>
@@ -45,19 +43,46 @@ JavaScript single file applications are not really multithreaded now. Two pseudo
 //<![CDATA[
 //copyright 2013-2014 Cenek Svoboda, svobo.c@gmail.com
 d=document;
-d.someNumber=0;
-d.addToNumber=function()
+/*
+//doesn't change context
+var numb={
+	num:0,
+	incr:function()
+	{
+		++this.num;
+	},
+	show:function(paramm)
+	{
+		var spanisko=document.createElement('span');
+		var textisko=document.createTextNode(paramm+this.num+" ");
+		spanisko.appendChild(textisko);
+		document.getElementById("mooph").appendChild(spanisko);
+	}
+
+}
+var applica=numb;
+var foo=numb;
+var bar=numb;
+*/
+function numb()
 {
-	++d.someNumber;
+	this.num=0;
+}
+numb.prototype.incr=function()
+{
+	++this.num;
 };
-d.displayAndRestartThat=function()
+numb.prototype.show=function(paramm)
 {
 	var spanisko=document.createElement('span');
-	var textisko=document.createTextNode(d.someNumber+" ");
+	var textisko=document.createTextNode(paramm+this.num+" ");
 	spanisko.appendChild(textisko);
 	document.getElementById("mooph").appendChild(spanisko);
-	d.someNumber=0;
 };
+var applica=new numb();
+var foo=new numb();
+var bar=new numb();
+
 d.setDisplayingPseudothredToMeasuredFromLastTime=function(foo)
 {
 	d.pseudothreadThatDisplays.setMeasuredFromLastTime(foo);
@@ -74,9 +99,13 @@ d.setDisplayingPseudothreadMeasuredDelay=function()
 d.adder=MOOPH.createFalseThread();
 d.pseudothreadThatDisplays=MOOPH.createFalseThread();
 
-d.adder.setFunction(d.addToNumber);
+d.adder.setFunction(applica.incr);
+d.adder.setContext(foo);
 
-d.pseudothreadThatDisplays.setFunction(d.displayAndRestartThat);
+d.pseudothreadThatDisplays.setFunction(applica.show);
+d.pseudothreadThatDisplays.setParameters("");
+d.pseudothreadThatDisplays.setContext(foo);
+
 d.pseudothreadThatDisplays.setMeasuredDelay(200);
 
 d.adder.start();
@@ -95,6 +124,22 @@ setTimeout(function(){
 setTimeout(function(){
 	d.adder.start();
 },7000);
+
+//parameters work in apply...
+setTimeout(function(){
+	d.pseudothreadThatDisplays.setParameters("zzz");
+},8000);
+setTimeout(function(){
+	d.pseudothreadThatDisplays.setParameters("");
+},10000);
+//this switches displaying pseudothread context to object that has not incremented its number yet; in the background counting continues on "old" object
+setTimeout(function(){
+	d.pseudothreadThatDisplays.setContext(bar);
+},15000);
+//this switches adder context to the "new" object; counting of the "new" object starts from zero
+setTimeout(function(){
+	d.adder.setContext(bar);
+},20000);
 //]]>
 </script>
 

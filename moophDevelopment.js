@@ -1,6 +1,6 @@
-*
+/*
  * MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext
- * Copyright 2013 Cenek Svoboda, svobo.c@gmail.com
+ * Copyright 2013-2014 Cenek Svoboda, svobo.c@gmail.com
  */
 var MOOPH=(function MOOPH()
 {
@@ -25,6 +25,7 @@ var MOOPH=(function MOOPH()
 			_falseThreads[_ftid].timeoutDelay=1;
 			_falseThreads[_ftid].measuredDelay=0;
 			_falseThreads[_ftid].lastTime=0;
+			_falseThreads[_ftid].context=window;
 			_falseThreads[_ftid].falseThread=function falseThread(ftid)
 			{
 				if(_falseThreads[ftid].pause===true){
@@ -34,7 +35,7 @@ var MOOPH=(function MOOPH()
 				if(now>_falseThreads[ftid].lastTime+_falseThreads[ftid].measuredDelay){
 					var imbc=_falseThreads[ftid].isMeasuredBeforeCall;
 					if(!imbc){
-						_falseThreads[ftid].funct(_falseThreads[ftid].parameters);
+						_falseThreads[ftid].funct.call(_falseThreads[ftid].context,_falseThreads[ftid].parameters);
 					}
 					if(_falseThreads[ftid].isMeasuredFromLastTime){
 						_falseThreads[ftid].lastTime+=_falseThreads[ftid].measuredDelay;
@@ -46,7 +47,7 @@ var MOOPH=(function MOOPH()
 						}
 					}
 					if(imbc){
-						_falseThreads[ftid].funct(_falseThreads[ftid].parameters);
+						_falseThreads[ftid].funct.call(_falseThreads[ftid].context,_falseThreads[ftid].parameters);
 					}
 				}
 				var fun=function fun()
@@ -59,6 +60,10 @@ var MOOPH=(function MOOPH()
 				setFunction:function setFunction(funct)
 				{
 					_falseThreads[_ftid].funct=funct;
+				},
+				setContext:function setContext(cont)
+				{
+					_falseThreads[_ftid].context=cont;
 				},
 				setParameters:function setParameters(parameters)
 				{

@@ -16,7 +16,7 @@ MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 1
 </div>
 <br/>
 <p>
-JavaScript single file applications are not really multithreaded now. Two pseudothreads of execution run in this example in pseudoparallel (it looks like they run in parallel but they don't, they run one after each other). One of them is a very simple function that adds one to a variable and the other one is a function, that displays that variable and resets its value to zero. The pseudothread that displays the variable is paused between second and fourth second and the pseudothread that adds to the variable is paused between fifth and seventh second. It is possible to set how displaying pseudothread works using the form (some difference is seen when you focus on different tab after setting "is measured from last time"). I can not imagine more simple example covering every significant feature of MOOPH. It is more and more time consuming to display the text as the number of symbols grows... (I don't know why the numbers still get lower and lower if I set displaying pseudothread to "is measured after call", please help and explain (svobo.c@gmail.com)...)
+JavaScript single file applications are not really multithreaded now. Two pseudothreads of execution run in this example in pseudoparallel (it looks like they run in parallel but they don't, they run one after each other). One of them is a very simple function that adds one to a variable and the other one is a function, that displays that variable and resets its value to zero. The pseudothread that displays the variable is paused between second and fourth second and the pseudothread that adds to the variable is paused between fifth and seventh second. It is possible to set how displaying pseudothread works using the form (some difference is seen when you focus on different tab after setting "is measured from last time"). 
 <br/>
 <br/>
 <div>
@@ -27,12 +27,6 @@ JavaScript single file applications are not really multithreaded now. Two pseudo
 	<input type="radio" name="lastTime" onclick="d.setDisplayingPseudothredToMeasuredFromLastTime(true);"/>Set displaying pseudothread to "is measured from last time".
 	<br/>
 	<input type="radio" name="lastTime" onclick="d.setDisplayingPseudothredToMeasuredFromLastTime(false);" checked="checked"/>Set displaying pseudothread to "is measured from now".
-</div>
-<br/>
-<div>
-	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(true);" checked="checked"/>Set displaying pseudothread to "is measured before call".
-	<br/>
-	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(false);"/>Set displaying pseudothread to "is measured after call".
 </div>
 <br/>
 <br/>
@@ -61,10 +55,6 @@ d.displayAndRestartThat=function()
 d.setDisplayingPseudothredToMeasuredFromLastTime=function(foo)
 {
 	d.pseudothreadThatDisplays.setMeasuredFromLastTime(foo);
-};
-d.setDisplayingPseudothredToMeasuredBeforeCall=function(bar)
-{
-	d.pseudothreadThatDisplays.setMeasuredBeforeCall(bar);
 };
 d.setDisplayingPseudothreadMeasuredDelay=function()
 {

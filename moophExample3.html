@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="cs" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="description" content="MOOPH - example"/>
+<meta name="keywords" content="pseudomultithreading, pseudothreading, javascript multithreading, javascript threading, javascript threads"/>
+<meta name="author" content="copyright 2014 Cenek Svoboda, svobo.c@gmail.com" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1250"/>
+<script src="./moophProduction.js"></script>
+<title>
+MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 3
+</title>
+</head>
+<body>
+<div>
+<h1>MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext - Example 3</h1>
+</div>
+<br/>
+<p>
+In this example it is possible to set the time for which some time consuming operation happens in function called by displaying pseudothread. I show the difference between "is measured before call" and "is measured after call" here. Try setting different delays and times and pressing different radio buttons. Don't set time for time consuming operation simulation too high, your browser will be frozen for that time (in milliseconds).
+<br/>
+<br/>
+<div>
+	Measured delay of the pseudothread that displays the variable: <input id="reMeDe" type="text" value="200"/>&nbsp;<input type="button" value="Set measured delay of the pseudothread that displays the variable." onclick="d.setDisplayingPseudothreadMeasuredDelay();"/>
+</div>
+<br/>
+<div>
+	Time for time consuming operation happening in the pseudothread that displays the variable: <input id="tco" type="text" value="150"/>&nbsp;<input type="button" value="Set time for time consuming operation." onclick="d.setTimeConsuming();"/>
+</div>
+<br/>
+<div>
+	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(true);" checked="checked"/>Set displaying pseudothread to "is measured before call".
+	<br/>
+	<input type="radio" name="beforeCall" onclick="d.setDisplayingPseudothredToMeasuredBeforeCall(false);"/>Set displaying pseudothread to "is measured after call".
+</div>
+<br/>
+<br/>
+&copy; 2014 Cenek Svoboda, svobo.c@gmail.com
+</p>
+<br/>
+<div id="mooph">
+</div>
+<script type="text/javascript">
+//<![CDATA[
+//copyright 2014 Cenek Svoboda, svobo.c@gmail.com
+d=document;
+d.someNumber=0;
+d.someTime=150;
+d.doNothing=function()
+{
+};
+d.addToNumber=function()
+{
+	++d.someNumber;
+};
+d.displayAndRestartThat=function()
+{
+	// this is the simulation of time consuming operation in javascript that doesn't go to event queue
+	var foo=new Date().getTime();
+	while((foo+d.someTime)>new Date().getTime()){
+		d.doNothing();
+	}
+	var spanisko=document.createElement('span');
+	var textisko=document.createTextNode(d.someNumber+" ");
+	spanisko.appendChild(textisko);
+	document.getElementById("mooph").appendChild(spanisko);
+	d.someNumber=0;
+};
+d.setDisplayingPseudothredToMeasuredBeforeCall=function(bar)
+{
+	d.pseudothreadThatDisplays.setMeasuredBeforeCall(bar);
+};
+d.setDisplayingPseudothreadMeasuredDelay=function()
+{
+	d.pseudothreadThatDisplays.setMeasuredDelay(parseInt(document.getElementById("reMeDe").value));
+};
+d.setTimeConsuming=function()
+{
+	d.someTime=parseInt(document.getElementById("tco").value);
+};
+
+d.adder=MOOPH.createFalseThread();
+d.pseudothreadThatDisplays=MOOPH.createFalseThread();
+
+d.adder.setFunction(d.addToNumber);
+
+d.pseudothreadThatDisplays.setFunction(d.displayAndRestartThat);
+d.pseudothreadThatDisplays.setMeasuredDelay(200);
+
+d.adder.start();
+d.pseudothreadThatDisplays.start();
+
+//]]>
+</script>
+
+</body>
+</html>

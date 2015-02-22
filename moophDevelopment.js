@@ -1,6 +1,6 @@
 /*
  * MOOPH = Module for Object Oriented Pseudomultithreaded Hypertext
- * Copyright 2013-2014 Cenek Svoboda, svobo.c@gmail.com
+ * Copyright 2013-2015 Cenek Svoboda, svobo.c@gmail.com
  */
 var MOOPH=(function MOOPH()
 {

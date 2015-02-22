@@ -15,7 +15,7 @@ var MOOPH=(function MOOPH()
 	}
 	var _falseThreads=[];
 	return {
-		createFalseThread:function createPseudoThread()
+		createPseudoThread:function createPseudoThread()
 		{
 			var _ftid=_falseThreads.length;
 			_falseThreads[_ftid]={};

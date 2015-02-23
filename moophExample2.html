@@ -96,8 +96,8 @@ d.setDisplayingPseudothreadMeasuredDelay=function()
 	d.pseudothreadThatDisplays.setMeasuredDelay(parseInt(document.getElementById("reMeDe").value));
 };
 
-d.adder=MOOPH.createFalseThread();
-d.pseudothreadThatDisplays=MOOPH.createFalseThread();
+d.adder=MOOPH.createPseudoThread();
+d.pseudothreadThatDisplays=MOOPH.createPseudoThread();
 
 d.adder.setFunction(applica.incr);
 d.adder.setContext(foo);

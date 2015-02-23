@@ -78,8 +78,8 @@ d.setTimeConsuming=function()
 	d.someTime=parseInt(document.getElementById("tco").value);
 };
 
-d.adder=MOOPH.createFalseThread();
-d.pseudothreadThatDisplays=MOOPH.createFalseThread();
+d.adder=MOOPH.createPseudoThread();
+d.pseudothreadThatDisplays=MOOPH.createPseudoThread();
 
 d.adder.setFunction(d.addToNumber);
 

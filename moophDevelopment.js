@@ -17,83 +17,83 @@ var MOOPH=(function MOOPH()
 	return {
 		createPseudoThread:function createPseudoThread()
 		{
-			var _ftid=_pseudoThreads.length;
-			_pseudoThreads[_ftid]={};
-			_pseudoThreads[_ftid].pause=true;
-			_pseudoThreads[_ftid].isMeasuredFromLastTime=false;
-			_pseudoThreads[_ftid].isMeasuredBeforeCall=true;
-			_pseudoThreads[_ftid].timeoutDelay=1;
-			_pseudoThreads[_ftid].measuredDelay=0;
-			_pseudoThreads[_ftid].lastTime=0;
-			_pseudoThreads[_ftid].context=window;
-			_pseudoThreads[_ftid].pseudoThread=function pseudoThread(ftid)
+			var _ptid=_pseudoThreads.length;
+			_pseudoThreads[_ptid]={};
+			_pseudoThreads[_ptid].pause=true;
+			_pseudoThreads[_ptid].isMeasuredFromLastTime=false;
+			_pseudoThreads[_ptid].isMeasuredBeforeCall=true;
+			_pseudoThreads[_ptid].timeoutDelay=1;
+			_pseudoThreads[_ptid].measuredDelay=0;
+			_pseudoThreads[_ptid].lastTime=0;
+			_pseudoThreads[_ptid].context=window;
+			_pseudoThreads[_ptid].pseudoThread=function pseudoThread(ptid)
 			{
-				if(_pseudoThreads[ftid].pause===true){
+				if(_pseudoThreads[ptid].pause===true){
 					return;
 				}
 				var now=window.performance.now();
-				if(now>_pseudoThreads[ftid].lastTime+_pseudoThreads[ftid].measuredDelay){
-					var imbc=_pseudoThreads[ftid].isMeasuredBeforeCall;
+				if(now>_pseudoThreads[ptid].lastTime+_pseudoThreads[ptid].measuredDelay){
+					var imbc=_pseudoThreads[ptid].isMeasuredBeforeCall;
 					if(!imbc){
-						_pseudoThreads[ftid].funct.call(_pseudoThreads[ftid].context,_pseudoThreads[ftid].parameters);
+						_pseudoThreads[ptid].funct.call(_pseudoThreads[ptid].context,_pseudoThreads[ptid].parameters);
 					}
-					if(_pseudoThreads[ftid].isMeasuredFromLastTime){
-						_pseudoThreads[ftid].lastTime+=_pseudoThreads[ftid].measuredDelay;
+					if(_pseudoThreads[ptid].isMeasuredFromLastTime){
+						_pseudoThreads[ptid].lastTime+=_pseudoThreads[ptid].measuredDelay;
 					}else{
 						if(!imbc){
-							_pseudoThreads[ftid].lastTime=window.performance.now();
+							_pseudoThreads[ptid].lastTime=window.performance.now();
 						}else{
-							_pseudoThreads[ftid].lastTime=now;
+							_pseudoThreads[ptid].lastTime=now;
 						}
 					}
 					if(imbc){
-						_pseudoThreads[ftid].funct.call(_pseudoThreads[ftid].context,_pseudoThreads[ftid].parameters);
+						_pseudoThreads[ptid].funct.call(_pseudoThreads[ptid].context,_pseudoThreads[ptid].parameters);
 					}
 				}
 				var fun=function fun()
 				{
-					_pseudoThreads[ftid].pseudoThread(ftid);
+					_pseudoThreads[ptid].pseudoThread(ptid);
 				};
-				setTimeout(fun,_pseudoThreads[ftid].timeoutDelay);
+				setTimeout(fun,_pseudoThreads[ptid].timeoutDelay);
 			};
 			return {
 				setFunction:function setFunction(funct)
 				{
-					_pseudoThreads[_ftid].funct=funct;
+					_pseudoThreads[_ptid].funct=funct;
 				},
 				setContext:function setContext(cont)
 				{
-					_pseudoThreads[_ftid].context=cont;
+					_pseudoThreads[_ptid].context=cont;
 				},
 				setParameters:function setParameters(parameters)
 				{
-					_pseudoThreads[_ftid].parameters=parameters;
+					_pseudoThreads[_ptid].parameters=parameters;
 				},
 				setTimeoutDelay:function setTimeoutDelay(timeoutDelay)
 				{
-					_pseudoThreads[_ftid].timeoutDelay=timeoutDelay;
+					_pseudoThreads[_ptid].timeoutDelay=timeoutDelay;
 				},
 				setMeasuredDelay:function setMeasuredDelay(measuredDelay)
 				{
-					_pseudoThreads[_ftid].measuredDelay=measuredDelay;
+					_pseudoThreads[_ptid].measuredDelay=measuredDelay;
 				},
 				setMeasuredFromLastTime:function setMeasuredFromLastTime(isMeasuredFromLastTime)
 				{
-					_pseudoThreads[_ftid].isMeasuredFromLastTime=isMeasuredFromLastTime;
+					_pseudoThreads[_ptid].isMeasuredFromLastTime=isMeasuredFromLastTime;
 				},
 				setMeasuredBeforeCall:function setMeasuredBeforeCall(isMeasuredBeforeCall)
 				{
-					_pseudoThreads[_ftid].isMeasuredBeforeCall=isMeasuredBeforeCall;
+					_pseudoThreads[_ptid].isMeasuredBeforeCall=isMeasuredBeforeCall;
 				},
 				start:function start()
 				{
-					_pseudoThreads[_ftid].pause=false;
-					_pseudoThreads[_ftid].lastTime=window.performance.now();
-					_pseudoThreads[_ftid].pseudoThread(_ftid);
+					_pseudoThreads[_ptid].pause=false;
+					_pseudoThreads[_ptid].lastTime=window.performance.now();
+					_pseudoThreads[_ptid].pseudoThread(_ptid);
 				},
 				pause:function pause()
 				{
-					_pseudoThreads[_ftid].pause=true;
+					_pseudoThreads[_ptid].pause=true;
 				}
 			};
 		}

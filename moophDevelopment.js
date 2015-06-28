@@ -4,7 +4,7 @@
  */
 var MOOPH=(function MOOPH()
 {
-	if(typeof window.performance==='undefined'){
+	if(typeof window.performance==="undefined"){
 		window.performance={};
 	}
 	if(!window.performance.now){

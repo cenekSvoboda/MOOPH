@@ -9,3 +9,6 @@ with access to DOM in JavaScript. Unlike web workers, the solution can access sh
 I am publishing about my progress in this area on http://pseudomultithreading.webzdarma.cz now. You may find more complex examples over there. Something is also written on http://javascriptmultithreading.eu...
 
 Cenek Svoboda, svobo.c@gmail.com
+
+
+https://www.hackthissite.org/forums/viewtopic.php?f=38&t=10670

@@ -13,7 +13,7 @@ Unlike requestAnimationFrame, it is better for processes, that are not related t
 Unlike setInterval solutions, if set to max speed, MOOPH by default doesn't queue time consuming function calls.
 
 
-I am publishing about my progress in this area on http://pseudomultithreading.webzdarma.cz now. You may find more complex examples over there. Something is also written on http://javascriptmultithreading.eu...
+I am publishing about my progress in this area on http://pseudomultithreading.webzdarma.cz now. You may find more complex examples over there.
 
 &copy; Cenek Svoboda, svobo.c@gmail.com
 

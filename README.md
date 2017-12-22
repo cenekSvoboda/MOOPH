@@ -15,6 +15,8 @@ Unlike setInterval solutions, if set to max speed, MOOPH by default doesn't queu
 
 I am publishing about my progress in this area on http://pseudomultithreading.webzdarma.cz now. You may find more complex examples over there.
 
+http://mooph.eu
+
 &copy; Cenek Svoboda, svobo.c@gmail.com
 
 

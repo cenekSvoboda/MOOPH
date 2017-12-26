@@ -1,0 +1,33 @@
+<html>
+<body>
+<div id="f"></div>
+<script>
+var MOOPHLite=(function(){
+	var _p=[];
+	return {
+		createPseudoThread:function(){
+			var iii=_p.length;
+			return _p[iii]={
+				setFunction:function(fnc){
+					_p[iii].f=fnc;
+				},
+				start:function(){
+					setTimeout(function(){
+						_p[iii].f();
+						_p[iii].start();
+					},1);
+				}
+			}
+		}
+	};
+}());
+
+var ah1=MOOPHLite.createPseudoThread();
+ah1.setFunction(function(){document.getElementById("f").innerHTML+="f";});
+var ah2=MOOPHLite.createPseudoThread();
+ah2.setFunction(function(){document.getElementById("f").innerHTML+="g";});
+ah1.start();
+ah2.start();
+</script>
+</body>
+</html>
